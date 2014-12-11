@@ -1,6 +1,8 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
+admin.autodiscover()  # automatic autodiscover should be turned off in settings
+
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'sfotipy.views.home', name='home'),
