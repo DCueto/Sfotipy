@@ -11,3 +11,6 @@ class Track(models.Model):
 	track_file = models.FileField(upload_to='tracks')
 	album = models.ForeignKey(Album)
 	artist = models.ForeignKey(Artist)
+
+	def __unicode__(self):
+		return self.title
