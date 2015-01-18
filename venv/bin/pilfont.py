@@ -1,4 +1,4 @@
-#!/Users/DCueto/Mejorandola/BackendPro/Sfotipy/venv/bin/python
+#!/Users/DCueto/Projects/Sfotipy/venv/bin/python
 #
 # The Python Imaging Library
 # $Id$

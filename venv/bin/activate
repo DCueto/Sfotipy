@@ -39,7 +39,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/Users/DCueto/Mejorandola/BackendPro/Sfotipy/venv"
+VIRTUAL_ENV="/Users/DCueto/Projects/Sfotipy/venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
