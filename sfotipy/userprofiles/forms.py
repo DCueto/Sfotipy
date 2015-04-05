@@ -6,15 +6,11 @@ from django.contrib.auth import authenticate
 class UserCreationEmailForm(UserCreationForm):
 	email = forms.EmailField()
 
+
 	class Meta:
 		model = User
 		fields = ('username', 'email')
 
-	""" 
-	def clean_email(self): "Mirar en Github(django.contrib.auth.forms.py) 
-	la función clean_username dentro de la clase UserCreationForm para hacer el 
-	clean_email" 
-	"""
 
 class EmailAuthenticationForm(forms.Form):
 	email = forms.EmailField()
@@ -32,7 +28,6 @@ class EmailAuthenticationForm(forms.Form):
 
 		if self.user_cache is None:
 			raise forms.ValidationError('Usuario incorrecto')
-
 		elif not self.user_cache.is_active:
 			raise forms.ValidationError('Usuario inactivo')
 
