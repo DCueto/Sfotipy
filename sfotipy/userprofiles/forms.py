@@ -6,12 +6,19 @@ from django.contrib.auth import authenticate
 class UserCreationEmailForm(UserCreationForm):
 	email = forms.EmailField()
 
-
 	class Meta:
 		model = User
 		fields = ('username', 'email')
 
 	# Validar que el email no exista
+
+	def clean_email(self):
+		email = self.cleaned_data.get('email')
+		try:
+			User._default_manager.get(email=email)
+		except User.DoesNotExist:
+			return email
+		raise forms.ValidationError('Ya existe un usuario con este email')
 
 
 class EmailAuthenticationForm(forms.Form):
