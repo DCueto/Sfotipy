@@ -11,6 +11,8 @@ class UserCreationEmailForm(UserCreationForm):
 		model = User
 		fields = ('username', 'email')
 
+	# Validar que el email no exista
+
 
 class EmailAuthenticationForm(forms.Form):
 	email = forms.EmailField()
