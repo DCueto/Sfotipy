@@ -2,11 +2,13 @@ import json
 
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404
+from django.contrib.auth.decorators import login_required
 
 from .models import Track
 
 # Create your views here.
 
+@login_required
 def track_view(request, title):
 
 	'''	try:
@@ -26,9 +28,9 @@ def track_view(request, title):
 			'bio': bio
 		}
 	}
-	json_data = json.dumps(data)
+	#json_data = json.dumps(data)
 
 	
-	return HttpResponse(json_data, content_type='application/json')
+	#return HttpResponse(json_data, content_type='application/json')
 
-	# return render(request, 'track.html', {'track': track, 'bio': bio})
+	return render(request, 'track.html', {'track': track, 'bio': bio})
