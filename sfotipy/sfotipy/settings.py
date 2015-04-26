@@ -21,7 +21,7 @@ ALLOWED_HOSTS = ['*']
 SECRET_KEY = 'q$x#pjx1fq+*57^1r$994xj+vg9pti08xqmwhk4x$)p7nh3ue_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 TEMPLATE_DEBUG = True
 
@@ -121,8 +121,9 @@ AUTHENTICATION_BACKENDS = {
 }
 
 REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',),
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
+    ],
 
 }
