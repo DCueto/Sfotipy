@@ -51,6 +51,7 @@ INSTALLED_APPS = (
     'tablib',
     'mockups',
     'django_extensions',
+    'rest_framework',
     'tracks',
     'albums',
     'artists',
@@ -114,3 +115,9 @@ AUTHENTICATION_BACKENDS = {
     'userprofiles.backends.EmailBackend',
 }
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+
+}

@@ -5,6 +5,7 @@ from django.http import HttpResponse, Http404
 from django.contrib.auth.decorators import login_required
 
 from .models import Track
+from .serializers import TrackSerializer
 
 # Create your views here.
 
@@ -34,3 +35,9 @@ def track_view(request, title):
 	#return HttpResponse(json_data, content_type='application/json')
 
 	return render(request, 'track.html', {'track': track, 'bio': bio})
+
+from rest_framework import viewsets
+
+class TrackViewSet(viewsets.ModelViewSet):
+	queryset = Track.objects.all()
+	serializer_class = TrackSerializer

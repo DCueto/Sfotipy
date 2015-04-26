@@ -1,10 +1,18 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.conf import settings
+from rest_framework import routers
 
-from artists.views import ArtistDetailView
+from artists.views import ArtistDetailView, ArtistListView, ArtistViewSet
+from albums.views import AlbumViewSet
+from tracks.views import TrackViewSet
 
 admin.autodiscover()  # automatic autodiscover should be turned off in settings
+
+router = routers.DefaultRouter()
+router.register(r'artists', ArtistViewSet)
+router.register(r'albums', AlbumViewSet)
+router.register(r'tracks', TrackViewSet)
 
 urlpatterns = patterns('',
     # Examples:
@@ -17,6 +25,9 @@ urlpatterns = patterns('',
     url(r'^signin/', 'userprofiles.views.signin', name='signin'),
     url(r'^signout/', 'userprofiles.views.signout', name='signout'),
     url(r'^artists/(?P<pk>[\d]+)', ArtistDetailView.as_view()),
+    url(r'^artists/', ArtistListView.as_view()),
+    url(r'^api/', include(router.urls)),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 
 )
 
