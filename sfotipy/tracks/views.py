@@ -1,8 +1,10 @@
 import json
-
+import time
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404
 from django.contrib.auth.decorators import login_required
+from django.core.cache import cache
+from django.views.decorators.cache import cache_page
 
 from .models import Track
 from .serializers import TrackSerializer
@@ -10,6 +12,7 @@ from .serializers import TrackSerializer
 # Create your views here.
 
 @login_required
+#@cache_page(60)
 def track_view(request, title):
 
 	'''	try:
@@ -19,7 +22,6 @@ def track_view(request, title):
 
 	track = get_object_or_404(Track, title=title) 
 	bio = track.artist.biography
-
 	data = {
 		'title': track.title,
 		'order': track.order,
@@ -29,6 +31,7 @@ def track_view(request, title):
 			'bio': bio
 		}
 	}
+	time.sleep(1)
 	#json_data = json.dumps(data)
 
 	
