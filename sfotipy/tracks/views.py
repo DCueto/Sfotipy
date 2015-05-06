@@ -8,6 +8,7 @@ from django.views.decorators.cache import cache_page
 
 from .models import Track
 from .serializers import TrackSerializer
+from artists.tasks import demorada
 
 # Create your views here.
 
@@ -31,7 +32,8 @@ def track_view(request, title):
 			'bio': bio
 		}
 	}
-	time.sleep(1)
+	demorada.apply_async(countdown=5)
+
 	#json_data = json.dumps(data)
 
 	
