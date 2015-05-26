@@ -24,3 +24,20 @@ class ArtistViewSet(viewsets.ModelViewSet):
 	serializer_class = ArtistSerializer
 	filter_fields = ('id',)
 	paginate_by = 1
+
+from django.views.generic import ListView
+from albums.models import Album
+
+class AlbumListView(ListView):
+	model = Album
+	template_name = 'album_list.html'
+	paginate_by = 2
+
+	def get_queryset(self):
+		if self.kwargs.get('artist'):
+			#Devolver albumes de artista
+			queryset = self.model.objects.filter(artist__slug__contains=self.kwargs.get('artist'))
+		else:
+			queryset = super(AlbumListView, self).get_queryset()
+
+		return queryset

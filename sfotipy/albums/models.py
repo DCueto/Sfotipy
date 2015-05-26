@@ -6,6 +6,7 @@ from artists.models import Artist
 class Album(models.Model):
 	title = models.CharField(max_length=255)
 	cover = models.ImageField(upload_to='albums')
+	slug = models.CharField(max_length=100, blank=True)
 	artist = models.ForeignKey(Artist)
 
 	def __unicode__(self):

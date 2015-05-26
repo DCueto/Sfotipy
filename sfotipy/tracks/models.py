@@ -9,6 +9,7 @@ class Track(models.Model):
 	title = models.CharField(max_length=255)
 	order = models.PositiveIntegerField()
 	track_file = models.FileField(upload_to='tracks')
+	slug = models.CharField(max_length=100, blank=True)
 	album = models.ForeignKey(Album)
 	artist = models.ForeignKey(Artist)
 
