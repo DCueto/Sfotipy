@@ -25,7 +25,7 @@ class ArtistViewSet(viewsets.ModelViewSet):
 	filter_fields = ('id',)
 	paginate_by = 1
 
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from albums.models import Album
 
 class AlbumListView(ListView):
@@ -41,3 +41,13 @@ class AlbumListView(ListView):
 			queryset = super(AlbumListView, self).get_queryset()
 
 		return queryset
+
+class AlbumDetailView(DetailView):
+	model = Album
+	template_name = 'album_detail.html'
+
+
+
+
+
+
