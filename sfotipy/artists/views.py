@@ -1,11 +1,27 @@
 from django.shortcuts import render
+from django.http import JsonResponse
 
 from django.views.generic.detail import DetailView
-from django.views.generic import ListView
 from rest_framework import viewsets
-
+from django.views.generic import ListView, DetailView
+from albums.models import Album
 from .models import Artist
 from .serializers import ArtistSerializer
+
+# Mixins
+
+class JsonResponseMixin(object):
+	def response_handler(self):
+		format = self.request.GET.get('format', None)
+		if format == 'json':
+			return self.json_to_response()
+
+		context = self.get_context_data()
+		return self.render_to_response(context)
+
+	def json_to_response(self):
+		data = self.get_data()
+		return JsonResponse(data, safe=False)
 
 # Create your views here.
 
@@ -25,13 +41,27 @@ class ArtistViewSet(viewsets.ModelViewSet):
 	filter_fields = ('id',)
 	paginate_by = 1
 
-from django.views.generic import ListView, DetailView
-from albums.models import Album
+# Albums Views - Need to replace to albums app
 
-class AlbumListView(ListView):
+class AlbumListView(JsonResponseMixin, ListView):
 	model = Album
 	template_name = 'album_list.html'
-	paginate_by = 2
+	#paginate_by = 2
+
+	def get(self, request, *args, **kwargs):
+		self.object_list = self.get_queryset()
+		return self.response_handler()
+
+	def get_data(self):
+		data = list()
+		for album in self.object_list:
+			data.append({
+				'cover': album.cover.url,
+				'title': album.title,
+				'slug': album.slug,
+				'artist': album.artist.nickname,
+			})
+		return data
 
 	def get_queryset(self):
 		if self.kwargs.get('artist'):
@@ -42,12 +72,22 @@ class AlbumListView(ListView):
 
 		return queryset
 
-class AlbumDetailView(DetailView):
+class AlbumDetailView(JsonResponseMixin, DetailView):
 	model = Album
 	template_name = 'album_detail.html'
 
+	def get(self, request, *args, **kwargs):
+		self.object = self.get_object()
+		return self.response_handler()
 
-
-
-
-
+	def get_data(self):
+		data = {
+			'album':{
+				'cover': self.object.cover.url,
+				'title': self.object.title,
+				'slug': self.object.slug,
+				'artist': self.object.artist.nickname,
+				'tracks': [t.title for t in self.object.track_set.all()]
+			}
+		}
+		return data

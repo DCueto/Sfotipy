@@ -26,10 +26,9 @@ def signup(request):
 
 def signin(request):
 	form = EmailAuthenticationForm(request.POST or None)
-
+	
 	if form.is_valid():
 		login(request, form.get_user())
-
 		#redireccionar al home
 		return redirect('home')
 
