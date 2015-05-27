@@ -145,9 +145,9 @@ CACHE_MIDDLEWARE_ANONYMOUS_ONLY = True
 
 # Backends
 
-AUTHENTICATION_BACKENDS = {
-    'userprofiles.backends.EmailBackend',
-}
+#AUTHENTICATION_BACKENDS = {
+    #'userprofiles.backends.EmailBackend',
+#}
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',),

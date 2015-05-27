@@ -49,6 +49,13 @@ class LoginView(FormView):
 	template_name = "login.html"
 	success_url = '/profile/'
 
+	def form_valid(self, form):
+		username = form.cleaned_data['username']
+		password = form.cleaned_data['password']
+		user = authenticate(username=username, password=password)
+		login(self.request, user)
+		return super(LoginView, self).form_valid(form)
+
 	def get_context_data(self, **kwargs):
 		context = super(LoginView, self).get_context_data(**kwargs)
 		is_auth = False
@@ -79,7 +86,6 @@ class ProfileView(TemplateView):
 		return context
 
 	def get_userprofile(self):
-		print self.request.user
 		return self.request.user.userprofile
 
 
