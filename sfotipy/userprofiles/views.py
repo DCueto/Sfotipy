@@ -6,6 +6,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.views.generic import TemplateView, RedirectView, FormView
 from django.http import HttpResponse
 from .forms import LoginForm
+from django.contrib.auth.forms import AuthenticationForm
 
 # Create your views here.
 
@@ -45,15 +46,15 @@ def signout(request):
 	return render(request, 'signout.html', {'bye' : bye})
 
 class LoginView(FormView):
-	form_class = LoginForm
+	form_class = AuthenticationForm
 	template_name = "login.html"
 	success_url = '/profile/'
 
 	def form_valid(self, form):
-		username = form.cleaned_data['username']
-		password = form.cleaned_data['password']
-		user = authenticate(username=username, password=password)
-		login(self.request, user)
+		#username = form.cleaned_data['username']
+		#password = form.cleaned_data['password']
+		#user = authenticate(username=username, password=password)
+		login(self.request, form.user_cache)
 		return super(LoginView, self).form_valid(form)
 
 	def get_context_data(self, **kwargs):
