@@ -3,6 +3,9 @@
 from django.shortcuts import render, redirect
 from .forms import UserCreationEmailForm, EmailAuthenticationForm
 from django.contrib.auth import login, authenticate, logout
+from django.views.generic import TemplateView, RedirectView, FormView
+from django.http import HttpResponse
+from .forms import LoginForm
 
 # Create your views here.
 
@@ -41,12 +44,10 @@ def signout(request):
 
 	return render(request, 'signout.html', {'bye' : bye})
 
-
-from django.views.generic import TemplateView, RedirectView
-from django.http import HttpResponse
-
-class LoginView(TemplateView):
+class LoginView(FormView):
+	form_class = LoginForm
 	template_name = "login.html"
+	success_url = '/profile/'
 
 	def get_context_data(self, **kwargs):
 		context = super(LoginView, self).get_context_data(**kwargs)
@@ -69,9 +70,6 @@ class LoginView(TemplateView):
 class ProfileView(TemplateView):
 	template_name = 'profile.html'
 
-	def get_userprofile(self):
-		return self.request.user.userprofile
-
 	def get_context_data(self, **kwargs):
 		context = super(ProfileView, self).get_context_data(**kwargs)
 
@@ -79,6 +77,10 @@ class ProfileView(TemplateView):
 			context.update({'userprofile': self.get_userprofile()})
 
 		return context
+
+	def get_userprofile(self):
+		print self.request.user
+		return self.request.user.userprofile
 
 
 class PerfilRedirectView(RedirectView):
