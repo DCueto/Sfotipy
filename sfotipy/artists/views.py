@@ -6,6 +6,7 @@ from rest_framework import viewsets
 from django.views.generic import ListView, DetailView
 from albums.models import Album
 from .models import Artist
+from tracks.models import Track
 from .serializers import ArtistSerializer
 from userprofiles.mixins import LoginRequiredMixin
 
@@ -92,3 +93,7 @@ class AlbumDetailView(LoginRequiredMixin, JsonResponseMixin, DetailView):
 			}
 		}
 		return data
+
+class TopTrackListView(ListView):
+	queryset = Track.objects.top().filter(album__artist__slug='imagine-dragons')
+	template_name = 'track_list.html'

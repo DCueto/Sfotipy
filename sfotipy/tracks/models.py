@@ -1,17 +1,27 @@
 from django.db import models
+from django.db.models import QuerySet
 
 from artists.models import Artist
 from albums.models import Album
 
+
 # Create your models here.
+
+class TrackQuerySet(QuerySet):
+	def top(self):
+		return self.order_by('-listen')
+
 
 class Track(models.Model):
 	title = models.CharField(max_length=255)
 	order = models.PositiveIntegerField()
+	listen = models.PositiveIntegerField(default=0)
 	track_file = models.FileField(upload_to='tracks')
 	slug = models.CharField(max_length=100, blank=True)
 	album = models.ForeignKey(Album)
 	artist = models.ForeignKey(Artist)
+
+	objects = TrackQuerySet.as_manager()
 
 	def get_absolute_url(self):
 		return '/tracks/%s/' % self.title
