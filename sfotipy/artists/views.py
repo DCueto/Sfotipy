@@ -7,6 +7,7 @@ from django.views.generic import ListView, DetailView
 from albums.models import Album
 from .models import Artist
 from .serializers import ArtistSerializer
+from userprofiles.mixins import LoginRequiredMixin
 
 # Mixins
 
@@ -43,7 +44,7 @@ class ArtistViewSet(viewsets.ModelViewSet):
 
 # Albums Views - Need to replace to albums app
 
-class AlbumListView(JsonResponseMixin, ListView):
+class AlbumListView(LoginRequiredMixin, JsonResponseMixin, ListView):
 	model = Album
 	template_name = 'album_list.html'
 	#paginate_by = 2
@@ -72,7 +73,7 @@ class AlbumListView(JsonResponseMixin, ListView):
 
 		return queryset
 
-class AlbumDetailView(JsonResponseMixin, DetailView):
+class AlbumDetailView(LoginRequiredMixin, JsonResponseMixin, DetailView):
 	model = Album
 	template_name = 'album_detail.html'
 

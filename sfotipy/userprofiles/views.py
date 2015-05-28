@@ -7,6 +7,7 @@ from django.views.generic import TemplateView, RedirectView, FormView
 from django.http import HttpResponse
 from .forms import LoginForm
 from django.contrib.auth.forms import AuthenticationForm
+from .mixins import LoginRequiredMixin
 
 # Create your views here.
 
@@ -75,7 +76,7 @@ class LoginView(FormView):
 		return context
 
 
-class ProfileView(TemplateView):
+class ProfileView(LoginRequiredMixin, TemplateView):
 	template_name = 'profile.html'
 
 	def get_context_data(self, **kwargs):
